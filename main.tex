@@ -13,10 +13,14 @@
 \setbeamertemplate{navigation symbols}{}
 \mode<beamer>{\setbeamertemplate{blocks}[rounded][shadow=true]}
 \setbeamercovered{transparent}
+
+%%%%%%%% Set the color %%%%%%%%
 \setbeamercolor{block body}{use=structure, fg=white, bg=black!20}
 \setbeamercolor{itemize item}{fg=black}
 \setbeamercolor{itemize subitem}{fg=gray} 
 \setbeamercolor{itemize subsubitem}{fg=black!20} 
+
+%%%%%%%% Set the high-level colorbox %%%%%%%%
 \makeatletter\setbeamertemplate{footline}
 {  
 \leavevmode%  
@@ -34,21 +38,23 @@
 \vskip0pt%
 }
 
- \makeatother 
- \useoutertheme[footline=empty, subsection=false]{miniframes}
- \usepackage{multicol}  
- \author{Chaoqi Wang, Ziyu Ye}
- \author[C. Wang, Z. Ye, Z. Feng, A. Badanidiyuru, H. Xu]{Chaoqi Wang\inst{1}, Ziyu Ye\inst{1}, Zhe Feng\inst{2}\\Ashwinkumar Badanidiyuru\inst{2}, Haifeng Xu\inst{1}}
-
+%%%%%%%% Set the first page %%%%%%%%
+\makeatother 
+\useoutertheme[footline=empty, subsection=false]{miniframes}
+\usepackage{multicol}  
+\author[C. Wang, Z. Ye, Z. Feng, A. Badanidiyuru, H. Xu]{Chaoqi Wang\inst{1}, Ziyu Ye\inst{1}, Zhe Feng\inst{2}\\Ashwinkumar Badanidiyuru\inst{2}, Haifeng Xu\inst{1}}
 \institute[The University of Chicago]{The University of Chicago\inst{1}\\Google Research\inst{2}}
- \title{Follow-ups Also Matter:\\Improving Contextual Bandits via Post-serving Contexts}
+\title{Follow-ups Also Matter:\\Improving Contextual Bandits via Post-serving Contexts}
+\date{NeurIPS 2023} 
 
- \date{NeurIPS 2023} 
- \begin{document}
- \begin{frame}
- \titlepage
- \end{frame}
 
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Introduction}
 \begin{frame}[label=Background]{Problem Setup}
 \begin{itemize}
@@ -66,11 +72,17 @@
 
 \end{frame}
 
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Preliminaries}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% =======================================
 \begin{frame}{Definitions and Notations}
 
 \end{frame}
+% =======================================
 
+% =======================================
 \begin{frame}{Assumptions}
 \begin{itemize}
     \item Studies investigating the impact of Rocky's little brother's birth on his instances of running away. 
@@ -82,8 +94,13 @@
     \end{figure}
 \end{itemize}
 \end{frame}
+% =======================================
 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Method}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% =======================================
 \begin{frame}[label=Rocky]{Warmup: Why Natural Attempts May be Inadequate?}
 \begin{figure}
  \begin{columns}[c]
@@ -100,25 +117,37 @@
 \end{figure}
 Now I am going back to the previous slidesby clicking this: \hyperlink{Background}{go back}.
 \end{frame}
- 
+% =======================================
+
+% =======================================
 \begin{frame}{Generalized Elliptical Potential Lemma}
 
 \end{frame}
+% =======================================
 
+% =======================================
 \begin{frame}{The Proposed Algorithm: \texttt{poLinUCB}}
 
 \end{frame}
+% =======================================
 
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
-
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% =======================================
 \begin{frame}{Regret Analysis}
 
 \end{frame}
+% =======================================
 
+% =======================================
 \begin{frame}{Experimental Results}
 
 \end{frame}
+% =======================================
 
+% =======================================
 \begin{frame}
  \begin{center}
 		{\Huge Thank you!}\\
@@ -126,5 +155,6 @@ Now I am going back to the previous slidesby clicking this: \hyperlink{Backgroun
 		
 	\end{center}
 \end{frame}
+% =======================================
 
 \end{document}
