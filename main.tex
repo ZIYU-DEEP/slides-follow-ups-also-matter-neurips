@@ -6,7 +6,6 @@
 \usepackage{mwe}% for example pictures
 \usepackage{siunitx}
 \usepackage{hyperref}
-
 \usecolortheme{spruce}
 \useoutertheme{infolines}
 \usefonttheme[onlymath]{serif}
@@ -22,21 +21,19 @@
 {  
 \leavevmode%  
 \hbox{%  
-\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,center]{author in head/foot}%    
+
+\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.5ex,center]{author in head/foot}%    
 \usebeamerfont{author in head/foot}
 \insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}
- \end{beamercolorbox}%  
- 
- % \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1ex,center]{institute in head/foot}%    
- % \usebeamerfont{title in head/foot}\insertinstitute  
- % \end{beamercolorbox}%  
- 
- \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}%    
- \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}    
- \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}   
- \end{beamercolorbox}}%  
- \vskip0pt%
- }
+\end{beamercolorbox}%  
+
+\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.5ex,right]{date in head/foot}%    
+\usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}    
+\insertframenumber{} / \inserttotalframenumber\hspace*{2ex}   
+\end{beamercolorbox}}%  
+\vskip0pt%
+}
+
  \makeatother 
  \useoutertheme[footline=empty, subsection=false]{miniframes}
  \usepackage{multicol}  
@@ -53,7 +50,7 @@
  \end{frame}
 
 \section{Introduction}
-\begin{frame}[label=Background]{Background}
+\begin{frame}[label=Background]{Problem Setup}
 \begin{itemize}
 \item Here to input your background\\
    \begin{itemize}
@@ -65,8 +62,16 @@
 \end{itemize}
 \end{frame}
 
-\section{Literature Review}
-\begin{frame}{Here is the title of this slides}
+\begin{frame}{Our Contributions}
+
+\end{frame}
+
+\section{Preliminaries}
+\begin{frame}{Definitions and Notations}
+
+\end{frame}
+
+\begin{frame}{Assumptions}
 \begin{itemize}
     \item Studies investigating the impact of Rocky's little brother's birth on his instances of running away. 
     \begin{figure}
@@ -79,7 +84,7 @@
 \end{frame}
 
 \section{Method}
-\begin{frame}[label=Rocky]{There you can also separate the page}
+\begin{frame}[label=Rocky]{Warmup: Why Natural Attempts May be Inadequate?}
 \begin{figure}
  \begin{columns}[c]
   \begin{column}{0.3\textwidth}
@@ -93,16 +98,31 @@
   \end{columns}
   \caption{Here I just using one caption for these 2 cute pictures but you can also using 2 captions  \parbox{\linewidth}{\small\textit{Data source: Rocky's daily look}}}
 \end{figure}
-Now I am going back to the previous slidesby clicking this: \hyperlink{Background}{go back}
+Now I am going back to the previous slidesby clicking this: \hyperlink{Background}{go back}.
 \end{frame}
  
+\begin{frame}{Generalized Elliptical Potential Lemma}
 
+\end{frame}
 
+\begin{frame}{The Proposed Algorithm: \texttt{poLinUCB}}
+
+\end{frame}
+
+\section{Results}
+
+\begin{frame}{Regret Analysis}
+
+\end{frame}
+
+\begin{frame}{Experimental Results}
+
+\end{frame}
 
 \begin{frame}
  \begin{center}
 		{\Huge Thank you!}\\
-		\bigskip\bigskip % Vertical whitespace
+		%\bigskip\bigskip % Vertical whitespace
 		
 	\end{center}
 \end{frame}
