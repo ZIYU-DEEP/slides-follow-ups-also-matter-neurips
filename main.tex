@@ -71,7 +71,7 @@
 \begin{frame}{Backgrounds}
 
 \begin{itemize}
-    \item To give an illustrative example.
+    \item To give an illustrative example on why post-serving contexts is a practical issue.
     \item To highlight the research question.
 \end{itemize}
 
@@ -158,7 +158,18 @@
 % =======================================
 
 % =======================================
-\begin{frame}{Assumptions}
+
+
+\begin{frame}{Assumption: Generalized learnability of $\phi^*$}
+
+TODO: make this more abstract and easily digested by the audience.
+
+There exists an algorithm that, given $t$ pairs of examples $\{(\vx_s, \vz_s)\}_{s=1}^t$ with  arbitrarily chosen $\vx_s$'s,   outputs an estimated function of $\phi^\star: \mathbb{R}^{d_x} \rightarrow \mathbb{R}^{d_z}$ such that for any $\vx\in \mathbb{R}^{d_x}$,  the following holds with probability at least $1-\delta$, 
+
+\begin{align}
+     e_t^\delta:=\left\|\widehat{\phi}_t(\boldsymbol{x})-\phi^{\star}(\boldsymbol{x})\right\|_2 \leq C_0 \cdot\left(\|\boldsymbol{x}\|_{\boldsymbol{X}_t^{-1}}^2\right)^\alpha \cdot \log (t / \delta), \nonumber
+\end{align}
+where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant. 
 
 \end{frame}
 % =======================================
@@ -205,9 +216,8 @@
 % =======================================
 \begin{frame}
  \begin{center}
-		{\Huge Thank you!}\\
+		{\Huge Thank you.}
 		%\bigskip\bigskip % Vertical whitespace
-		
 	\end{center}
 \end{frame}
 % =======================================
