@@ -31,15 +31,13 @@
 \usepackage[labelfont={color=sad}]{caption}
 \setbeamertemplate{caption}[numbered]
 
-\definecolor{alizarin}{RGB}{227,38,54}
-\definecolor{ultramarine}{RGB}{24,13,191}
-\definecolor{navyblue}{rgb}{0.0, 0.0, 0.5}
-\definecolor{dgreen}{RGB}{0,51,0}
-
-% \hypersetup{linkcolor=alizarin, 
-%             citecolor=ultramarine, 
-%             urlcolor=dgreen,
-%             colorlinks=true,}
+% =============== Set the block ============== %
+\setbeamercolor{block body alerted}{bg=alerted text.fg!10}
+\setbeamercolor{block title alerted}{bg=alerted text.fg!20}
+\setbeamercolor{block body}{bg=structure!10}
+\setbeamercolor{block title}{bg=structure!20}
+\setbeamercolor{block body example}{bg=green!10}
+\setbeamercolor{block title example}{bg=green!20}
 
 % =============== Set the warning ============== %
 \usepackage{silence}
@@ -47,10 +45,21 @@
 \WarningsOff
 
 % =============== Set the color =============== %
+\definecolor{alizarin}{RGB}{227,38,54}
+\definecolor{ultramarine}{RGB}{24,13,191}
+\definecolor{navyblue}{rgb}{0.0, 0.0, 0.5}
+\definecolor{dgreen}{RGB}{0,51,0}
+
 \setbeamercolor{block body}{use=structure, fg=white, bg=black!20}
 \setbeamercolor{itemize item}{fg=black}
 \setbeamercolor{itemize subitem}{fg=gray} 
 \setbeamercolor{itemize subsubitem}{fg=black!20} 
+
+% =============== Set the hyper ============== %
+% \hypersetup{linkcolor=alizarin, 
+%             citecolor=ultramarine, 
+%             urlcolor=dgreen,
+%             colorlinks=true,}
 
 % ========= Set up highlighters ========= %
 \newcommand{\emphgreen}[1]{\colorbox{Green3!30!white}{$\displaystyle#1$}}
@@ -94,9 +103,11 @@
 
 \begin{document}
 
+% =======================================
 \begin{frame}
 \titlepage
 \end{frame}
+% =======================================
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Introduction}
@@ -211,19 +222,20 @@
 \begin{frame}{Assumption: Generalized learnability of $\phi^*(\cdot)$}
 
 % TODO: make this more abstract and easily digested by the audience.\\
-
+\begin{alertblock}{Learnability Assumption}
 There exists an algorithm that, given $t$ pairs of examples $\{(\vx_s, \vz_s)\}_{s=1}^t$ with  arbitrarily chosen $\vx_s$'s,   outputs an estimated function of $\phi^\star: \mathbb{R}^{d_x} \rightarrow \mathbb{R}^{d_z}$ such that for any $\vx\in \mathbb{R}^{d_x}$,  the following holds with probability at least $1-\delta$, 
 
 \begin{align}
      e_t^\delta:=\left\|\widehat{\phi}_t(\boldsymbol{x})-\phi^{\star}(\boldsymbol{x})\right\|_2 \leq C_0 \cdot\left(\|\boldsymbol{x}\|_{\boldsymbol{X}_t^{-1}}^2\right)^{\textcolor{red}{\alpha}} \cdot \log (t / \delta), \nonumber
 \end{align}
 where \textcolor{red}{$\alpha \in (0, 1/2]$} and $C_0$ is some universal constant. 
+\end{alertblock}
 
 \vspace{+10pt}
 
 \begin{itemize}
     \item The larger the value of $\alpha$, the faster the learning rate for $\phi^{\star}(\cdot)$.
-    \item The regret of our algorithm is tied to $O(T^{1-\alpha})$.
+    \item The regret of our algorithm is tied to $O(T^{\textcolor{red}{1-\alpha}})$.
     \item For linear functions, $\alpha = 1/2$ is optimal, yielding a regret of $O(\sqrt{T})$.
 \end{itemize}
 
@@ -232,6 +244,8 @@ where \textcolor{red}{$\alpha \in (0, 1/2]$} and $C_0$ is some universal constan
 
 % =======================================
 \begin{frame}[label=warmup]{Warmup: Why Natural Attempts May be Inadequate?}
+
+
 
 \end{frame}
 % =======================================
@@ -243,8 +257,8 @@ where \textcolor{red}{$\alpha \in (0, 1/2]$} and $C_0$ is some universal constan
 
 
 % =======================================
-\begin{frame}{Generalized Elliptical Potential Lemma}
-TODO: make this more abstract and easily digested by the audience.\\
+\begin{frame}{The Proposed Lemma: \texttt{Generalized EPL}}
+\begin{alertblock}{Generalized Elliptical Potential Lemma}
 Suppose (1) $\mX_0 \in \mathbb{R}^{d \times d}$ is any positive definite matrix; (2) $\vx_1, \ldots, \vx_T \in \mathbb{R}^d$ is a sequence of vectors with bounded $l_2$ norm $\max_t \|\vx_t\| \leq L_x$; (3) $\vepsilon_1, \ldots, \vepsilon_T \in \mathbb{R}^d$ is a sequence of independent (not necessarily identical) bounded zero-mean   noises satisfying  $\max_{t} \|\vepsilon_t\| \leq L_{\epsilon}$ and $   \expect[\vepsilon_t \vepsilon_t^\top] \succcurlyeq \sigma^2_{\epsilon} \mI$ for any $t$; %(4)  $\varphi: \mathbb{R}^D \to \mathbb{R}^d$ is a convex context mapping function; 
 and (4) $\widetilde{\mX}_t$ is defined as follows:
 \begin{equation*}\label{eq:data-matrix-GEPL}
@@ -255,6 +269,7 @@ Then, for any $p \in [0, 1]$, the following inequality holds with probability at
 \begin{align}\label{eq:gepl-bound}
     \!\!\!\!\!\!\!\!\sum_{t=1}^T\left(1 \wedge\left\| \vx_t \right\|_{\widetilde{\mX}_{t-1}^{-1}}^2\right)^p &\leq  2^p T^{1-p}\log^p\left(\frac{\det \mX_T}{\det\mX_0}\right) +  \frac{  8 L_\epsilon^2 (L_\epsilon + L_x)^2 }{\sigma_{\epsilon}^4} \log\left(\frac{32d L_\epsilon^2 (L_\epsilon + L_x)^2 }{\delta \sigma_{\epsilon}^4}\right).  \nonumber
 \end{align}}
+\end{alertblock}
 
 
 \end{frame}
