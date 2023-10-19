@@ -1,9 +1,7 @@
-\documentclass[10pt, xcolor=x11names,compress]{beamer}
+\documentclass[10pt, xcolor={dvipsnames,x11names},compress]{beamer}
+
 \usepackage{tabulary}
-% \usepackage{algorithm}
-% \usepackage{algpseudocode}
 \usepackage{algorithm,algpseudocode}
-% \usepackage[lined]{algorithm2e}
 \usepackage{etoolbox}
 \usepackage{booktabs}
 \usepackage{amssymb}
@@ -12,7 +10,7 @@
 \usepackage{bm}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage{mwe}% for example pictures
+\usepackage{mwe}
 \usepackage{siunitx}
 \usepackage{hyperref}
 \usepackage{biblatex}
@@ -26,18 +24,29 @@
 \setbeamercovered{transparent}
 \input{macros}
 
-%%%%%%%% Set the warning %%%%%%%%
+% =============== Set the warning ============== %
 \usepackage{silence}
 \WarningFilter[pdftoc]{hyperref}{Token not allowed in a PDF string}
 \WarningsOff
 
-%%%%%%%% Set the color %%%%%%%%
+% =============== Set the color =============== %
 \setbeamercolor{block body}{use=structure, fg=white, bg=black!20}
 \setbeamercolor{itemize item}{fg=black}
 \setbeamercolor{itemize subitem}{fg=gray} 
 \setbeamercolor{itemize subsubitem}{fg=black!20} 
 
-%%%%%%%% Set the high-level colorbox %%%%%%%%
+% ========= Set up highlighters ========= %
+\newcommand{\emphgreen}[1]{\colorbox{Green3!30!white}{$\displaystyle#1$}}
+\newcommand{\emphgold}[1]{\colorbox{Goldenrod!50}{$\displaystyle#1$}}
+\newcommand{\emphmelon}[1]{\colorbox{Melon!50}{$\displaystyle#1$}}
+\newcommand{\emphapricot}[1]{\colorbox{Apricot!50}{$\displaystyle#1$}}
+\newcommand{\emphmarine}[1]{\colorbox{Aquamarine!50}{$\displaystyle#1$}}
+\newcommand{\emphsky}[1]{\colorbox{SkyBlue!50}{$\displaystyle#1$}}
+\newcommand{\emphgray}[1]{\colorbox{gray!10}{$\displaystyle#1$}}
+\newcommand{\emphpurple}[1]{\colorbox{purple!10}{$\displaystyle#1$}}
+\newcommand{\emphred}[1]{\colorbox{Red!30}{$\displaystyle#1$}}
+
+% =========Set the high-level colorbox ========= %
 \makeatletter\setbeamertemplate{footline}
 {  
 \leavevmode%  
@@ -55,11 +64,11 @@
 \vskip0pt%
 }
 
-%%%%%%%% Set the first page %%%%%%%%
+% ========= Set the first page ========= %
 \makeatother 
 \useoutertheme[footline=empty, subsection=false]{miniframes}
 \usepackage{multicol}  
-\author[C. Wang, Z. Ye, Z. Feng, A. Badanidiyuru, H. Xu]{Chaoqi Wang\inst{1}, Ziyu Ye\inst{1}, Zhe Feng\inst{2}\\Ashwinkumar Badanidiyuru\inst{3}, Haifeng Xu\inst{1}}
+\author[C. Wang, Z. Ye, Z. Feng, A. Badanidiyuru, H. Xu]{Chaoqi Wang\inst{1}, Ziyu Ye\inst{1}, Zhe Feng\inst{2},\\Ashwinkumar Badanidiyuru\inst{3}, Haifeng Xu\inst{1}}
 \institute[The University of Chicago]{The University of Chicago\inst{1}\vspace{+2pt}\\Google Research\inst{2}\vspace{+2pt}\\Google\inst{3}}
 \title{Follow-ups Also Matter:\\Improving Contextual Bandits via Post-serving Contexts}
 \date{NeurIPS 2023} 
@@ -213,8 +222,8 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
         $${\left(a_t, {\widetilde{\phi}_{t}(\vx_t)}, \widetilde{\vw}_t\right) = {\underset{(a, \phi, \vw_a) \in [K] \times \calC_{t-1}\left(\widehat{\phi}_{t-1}, \vx_t\right) \times \calC_{t-1}(\widehat{\vw}_{t-1,a})  }{\argmax}} { \begin{bmatrix} \vx_t \\ \phi(\vx_t) \end{bmatrix}^\top \vw_{a} }}.$$ 
         \State Play the arm $a_t$ and receive the post-serving context  $\vz_t$ and  the reward $r_{t, a_t}$.
         \State Compute $\widehat{\vw}_{t,a}$ for each $a \in \calA$ using:
-        $$
-        \ell_t\left(\boldsymbol{\theta}_a, \beta_a\right)=\sum_{s \in[t]: a_s=a}\left(r_{s, a}-\boldsymbol{x}_s^{\top} \boldsymbol{\theta}_a-\boldsymbol{z}_s^{\top} \beta_a\right)^2+\lambda\left(\left\|\boldsymbol{\theta}_a\right\|_2^2+\left\|\beta_a\right\|_2^2\right).
+        $$\emphgray{
+        \ell_t\left(\boldsymbol{\theta}_a, \beta_a\right)=\sum_{s \in[t]: a_s=a}\left(r_{s, a}-\boldsymbol{x}_s^{\top} \boldsymbol{\theta}_a-\emphgold{\vz_s}^{\top} \beta_a\right)^2+\lambda\left(\left\|\boldsymbol{\theta}_a\right\|_2^2+\left\|\beta_a\right\|_2^2\right)}.
         $$
         \State Compute the estimated post-serving context generating function $\widehat{\phi}_t(\cdot)$ using ERM. 
         \State Update confidence sets $\calC_t(\widehat{\vw}_{t, a})$ and $\calC_t(\widehat{\phi}_t, \vx_t)$ for each $a$.
@@ -225,34 +234,6 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
 \end{minipage}
 }
 \end{center}
-
-
-% \begin{center}
-% \scalebox{.8}{                      %new code
-%     \begin{algorithm}[H]              %new code
-%         \DontPrintSemicolon
-%         \KwIn{Labels: set of all labels}
-%         \For{each XRow $\in$ XSet}{
-%         \For{each LRow $\in$ LSet}{
-%         CandidateSet $\gets$ $\phi$\;
-%         \For{each $label \in Labels$} {
-%         $C \gets \phi$\;
-%         \For{each $l_i \in LRow$} {
-%         \If{\underline{Lat.conflictsWith}($l_i$,label)}{
-%         $C \gets C \cup \{x_i\}$ \;
-%         }
-%         }
-%         \If{!\underline{isAffectedBy}(F,$X_{row}$,C)}{
-%         CandidateSet $\gets$ CandidateSet $\cap$ \{label\} \;
-%         }
-%         }
-%         $SHF_{row} \gets$ Lat.ChooseMin(CandidateSet) \;
-%         Output $X_{row}$, $T_{row}$, $SHF_{row}$ \;
-%         }
-%         }
-%     \end{algorithm}
-% }
-% \end{center}
 \end{frame}
 % =======================================
 
