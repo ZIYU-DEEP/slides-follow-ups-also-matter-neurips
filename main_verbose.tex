@@ -172,7 +172,7 @@
 
 
 % =======================================
-\begin{frame}{Contributions}
+\begin{frame}{Our Contributions}
 \begin{itemize}
     \item \textbf{New framework}: 
     \begin{itemize}
@@ -208,16 +208,24 @@
 % =======================================
 
 
-\begin{frame}{Assumption: Generalized learnability of $\phi^*$}
+\begin{frame}{Assumption: Generalized learnability of $\phi^*(\cdot)$}
 
-TODO: make this more abstract and easily digested by the audience.\\
+% TODO: make this more abstract and easily digested by the audience.\\
 
 There exists an algorithm that, given $t$ pairs of examples $\{(\vx_s, \vz_s)\}_{s=1}^t$ with  arbitrarily chosen $\vx_s$'s,   outputs an estimated function of $\phi^\star: \mathbb{R}^{d_x} \rightarrow \mathbb{R}^{d_z}$ such that for any $\vx\in \mathbb{R}^{d_x}$,  the following holds with probability at least $1-\delta$, 
 
 \begin{align}
-     e_t^\delta:=\left\|\widehat{\phi}_t(\boldsymbol{x})-\phi^{\star}(\boldsymbol{x})\right\|_2 \leq C_0 \cdot\left(\|\boldsymbol{x}\|_{\boldsymbol{X}_t^{-1}}^2\right)^\alpha \cdot \log (t / \delta), \nonumber
+     e_t^\delta:=\left\|\widehat{\phi}_t(\boldsymbol{x})-\phi^{\star}(\boldsymbol{x})\right\|_2 \leq C_0 \cdot\left(\|\boldsymbol{x}\|_{\boldsymbol{X}_t^{-1}}^2\right)^{\textcolor{red}{\alpha}} \cdot \log (t / \delta), \nonumber
 \end{align}
-where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant. 
+where \textcolor{red}{$\alpha \in (0, 1/2]$} and $C_0$ is some universal constant. 
+
+\vspace{+10pt}
+
+\begin{itemize}
+    \item The larger the value of $\alpha$, the faster the learning rate for $\phi^{\star}(\cdot)$.
+    \item The regret of our algorithm is tied to $O(T^{1-\alpha})$.
+    \item For linear functions, $\alpha = 1/2$ is optimal, yielding a regret of $O(\sqrt{T})$.
+\end{itemize}
 
 \end{frame}
 % =======================================
@@ -313,7 +321,7 @@ Same setting as in [Abbasi et al., 2011]~\footfullcite{abbasi2011improved} & $\w
 \begin{frame}{Experimental Results}
 
 \begin{itemize}
-    \item  Our proposed \polinucb consistently outperforms other strategies\\\textcolor{gray}{{\footnotesize (except for \texttt{LinUCB} ($x$ and $z$) which equips with post-serving contexts in arm selection)}}.
+    \item  Our proposed~\polinucb~consistently outperforms other strategies\\\textcolor{gray}{{\footnotesize (except for \texttt{LinUCB} ($x$ and $z$) which equips with post-serving contexts in arm selection)}}.
 \end{itemize}
 
 \begin{figure}[h]
