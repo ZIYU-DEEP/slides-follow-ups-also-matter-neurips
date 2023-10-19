@@ -1,5 +1,6 @@
+% =============== Set the basic ============== %
 \documentclass[10pt, xcolor={dvipsnames,x11names},compress]{beamer}
-
+\usepackage{tikz}
 \usepackage{tabulary}
 \usepackage{algorithm,algpseudocode}
 \usepackage{etoolbox}
@@ -24,6 +25,12 @@
 \setbeamercovered{transparent}
 \input{macros}
 
+% =============== Set the caption ============== %
+\definecolor{ocre}{RGB}{0,51,0}
+\usepackage[textfont={small}]{caption}
+\usepackage[labelfont={color=ocre}]{caption}
+\setbeamertemplate{caption}[numbered]
+
 % =============== Set the warning ============== %
 \usepackage{silence}
 \WarningFilter[pdftoc]{hyperref}{Token not allowed in a PDF string}
@@ -45,6 +52,7 @@
 \newcommand{\emphgray}[1]{\colorbox{gray!10}{$\displaystyle#1$}}
 \newcommand{\emphpurple}[1]{\colorbox{purple!10}{$\displaystyle#1$}}
 \newcommand{\emphred}[1]{\colorbox{Red!30}{$\displaystyle#1$}}
+
 
 % =========Set the high-level colorbox ========= %
 \makeatletter\setbeamertemplate{footline}
@@ -83,15 +91,43 @@
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Introduction}
 % =======================================
-\begin{frame}{Backgrounds}
+\begin{frame}
+    \frametitle{Background}
+    \begin{minipage}[t]{\textwidth}
+        \centering
+            \vspace{-30pt}
+            \begin{figure}
+                \includegraphics[width=0.5\linewidth]{figs/ex-followup.png}
+                \caption{{\small Illustration of learning with post-serving contexts.}}
+            \end{figure}
+    \end{minipage}
 
-\begin{itemize}
-    \item To give an illustrative example on why post-serving contexts is a practical issue.
-    \item To briefly mention that solely dependent on $\vx$ can bring linear regret.
-    \item To highlight the research question.
-\end{itemize}
+    \vspace{0.5cm} % Space between top and bottom
+
+    % Bottom part for text
+    \begin{minipage}[t]{\textwidth}
+        \begin{itemize}
+            \item \textbf{Motivation}: Post-serving contexts are prevalent in recommender systems.
+            \item \textbf{Challenges}: Classical bandit algorithms often fall short in such scenarios.
+            \item \textbf{Research question}: How to effectively utilizing post-serving information in contextual bandits?
+        \end{itemize}
+    \end{minipage}
 
 \end{frame}
+
+
+% \begin{frame}{Backgrounds}
+
+
+
+
+% \begin{itemize}
+%     \item To give an illustrative example on why post-serving contexts is a practical issue.
+%     \item To briefly mention that solely dependent on $\vx$ can bring linear regret.
+%     \item To highlight the research question.
+% \end{itemize}
+
+% \end{frame}
 
 \begin{frame}{Contributions}
 \begin{itemize}
@@ -135,28 +171,29 @@
     \end{itemize}
 \end{itemize}
 
-\begin{itemize}
+
+\begin{itemize} \color{gray}
     \item \textbf{Notations}:
-    \begin{itemize}
+    \begin{itemize} \color{gray}
         \item Actions space: $\calA = [K]$.
         
         \item Pre-serving context: $\vx \in \sR^{d_{\vx}}$; post-serving context: $\vz \in \sR^{d_{\vz}}$.
-        \begin{itemize}
+        \begin{itemize} \color{gray}
             \item $\vz = \phi^{\star}\left(\vx_t\right)+\vepsilon_t, \text{and } \phi^{\star}(\vx)=\sE[\vz \mid \vx]$
         \end{itemize}
         
         \item Reward function: 
-        \begin{itemize}
+        \begin{itemize} \color{gray}
             \item $r_{a}(\vx, \vz) = \vx^\top \vtheta_a^\star + \vz^\top \vbeta_a^\star + \eta$, where $\eta$ is $R_{\eta}$-sub-Gaussian.
         \end{itemize}
         
         \item Matrix representation: 
-        \begin{itemize}
+        \begin{itemize} \color{gray}
             \item $\mX_{t} = \sum_{s=1}^t \vx_s\vx_s^\top + \lambda \mI$ and $\mZ_t = \sum_{s=1}^t \vz_s \vz_s^\top + \lambda \mI$.
         \end{itemize}
         
         \item Norm restrictions: 
-        \begin{itemize}
+        \begin{itemize} \color{gray}
             \item $\forall a \in \calA, \|\vtheta_a^\star\|_2\leq 1, \|\vbeta_{a}^\star\|_2\leq 1 $; $\|\vx\|_2\leq L_x, \|\vz\|_2 \leq L_z$.
         \end{itemize}
         
@@ -223,7 +260,7 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
         \State Play the arm $a_t$ and receive the post-serving context  $\vz_t$ and  the reward $r_{t, a_t}$.
         \State Compute $\widehat{\vw}_{t,a}$ for each $a \in \calA$ using:
         $$\emphgray{
-        \ell_t\left(\boldsymbol{\theta}_a, \beta_a\right)=\sum_{s \in[t]: a_s=a}\left(r_{s, a}-\boldsymbol{x}_s^{\top} \boldsymbol{\theta}_a-\emphgold{\vz_s}^{\top} \beta_a\right)^2+\lambda\left(\left\|\boldsymbol{\theta}_a\right\|_2^2+\left\|\beta_a\right\|_2^2\right)}.
+        \ell_t\left(\boldsymbol{\theta}_a, \beta_a\right)=\sum_{s \in[t]: a_s=a}\left(r_{s, a}-\boldsymbol{x}_s^{\top} \boldsymbol{\theta}_a-\emphgreen{\vz_s}^{\top} \beta_a\right)^2+\lambda\left(\left\|\boldsymbol{\theta}_a\right\|_2^2+\left\|\beta_a\right\|_2^2\right)}.
         $$
         \State Compute the estimated post-serving context generating function $\widehat{\phi}_t(\cdot)$ using ERM. 
         \State Update confidence sets $\calC_t(\widehat{\vw}_{t, a})$ and $\calC_t(\widehat{\phi}_t, \vx_t)$ for each $a$.
