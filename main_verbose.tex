@@ -2,7 +2,8 @@
 \usepackage{tabulary}
 % \usepackage{algorithm}
 % \usepackage{algpseudocode}
-\usepackage{algorithm2e}
+\usepackage{algorithm,algpseudocode}
+% \usepackage[lined]{algorithm2e}
 \usepackage{etoolbox}
 \usepackage{booktabs}
 \usepackage{amssymb}
@@ -194,9 +195,60 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
 
 % =======================================
 \begin{frame}{The Proposed Algorithm: \polinucb}
+\hspace{+10pt}
+\begin{center}
+
+\scalebox{0.8}{\begin{minipage}[c][0.3\paperheight][c]{1\textwidth}
+  \centering
+
+\begin{algorithm}[H]
+\caption{\polinucb~(Linear UCB with post-serving contexts)}\label{alg:polinucb}
+\begin{algorithmic}[1]
+    % \textbf{Input:} Text Document.\newline
+    % \textbf{Output:} Summary sentences.
+    \State{Initialize parameters $\left\{\boldsymbol{A}_{i, 0} \leftarrow \mathbf{I}^d, \boldsymbol{b}_{i, 0} \leftarrow \mathbf{0}^d\right\}$ for all $i \in[K]$ and $\alpha \in \mathbb{R}^{+}$.}
+    \For{$t=0, 1, \ldots, T$}
+        \State Receive the \emph{pre-serving context} $\vx _{t}$
+        \State Compute the optimistic parameters by maximizing the UCB objective $${\left(a_t, {\widetilde{\phi}_{t}(\vx_t)}, \widetilde{\vw}_t\right) = {\underset{(a, \phi, \vw_a) \in [K] \times \calC_{t-1}\left(\widehat{\phi}_{t-1}, \vx_t\right) \times \calC_{t-1}(\widehat{\vw}_{t-1,a})  }{\argmax}} { \begin{bmatrix} \vx_t \\ \phi(\vx_t) \end{bmatrix}^\top \vw_{a} }}.$$ 
+        \State Play the arm $a_t$ and receive the realized \emph{post-serving context} as $\vz_t$ and  the real-valued  reward $$r_{t, a_t} =   \begin{bmatrix} \vx_t \\ \vz_t \end{bmatrix}^\top \vw_{a_t}^{\star}  + \eta_t. $$
+        \State Compute $\widehat{\vw}_{t,a}$ using Equation~\ref{eqn:w-closed-form} for each $a \in \calA$.
+        \State Compute the estimated post-serving context generating function $\widehat{\phi}_t(\cdot)$ using ERM. 
+        \State Update confidence sets $\calC_t(\widehat{\vw}_{t, a})$ and $\calC_t(\widehat{\phi}_t, \vx_t)$ for each $a$ based on Equations~\ref{eqn:w-confidence-set} and \ref{eqn:phi-confidence-set}.
+    \EndFor
+
+\end{algorithmic}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
 
 
-
+% \begin{center}
+% \scalebox{.8}{                      %new code
+%     \begin{algorithm}[H]              %new code
+%         \DontPrintSemicolon
+%         \KwIn{Labels: set of all labels}
+%         \For{each XRow $\in$ XSet}{
+%         \For{each LRow $\in$ LSet}{
+%         CandidateSet $\gets$ $\phi$\;
+%         \For{each $label \in Labels$} {
+%         $C \gets \phi$\;
+%         \For{each $l_i \in LRow$} {
+%         \If{\underline{Lat.conflictsWith}($l_i$,label)}{
+%         $C \gets C \cup \{x_i\}$ \;
+%         }
+%         }
+%         \If{!\underline{isAffectedBy}(F,$X_{row}$,C)}{
+%         CandidateSet $\gets$ CandidateSet $\cap$ \{label\} \;
+%         }
+%         }
+%         $SHF_{row} \gets$ Lat.ChooseMin(CandidateSet) \;
+%         Output $X_{row}$, $T_{row}$, $SHF_{row}$ \;
+%         }
+%         }
+%     \end{algorithm}
+% }
+% \end{center}
 \end{frame}
 % =======================================
 
@@ -206,8 +258,7 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % =======================================
 \begin{frame}{Regret Analysis}
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
+
 \begin{table}[]
 \centering
 \begin{tabular}{@{}ll@{}}
