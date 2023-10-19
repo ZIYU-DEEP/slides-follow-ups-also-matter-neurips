@@ -26,9 +26,9 @@
 \input{macros}
 
 % =============== Set the caption ============== %
-\definecolor{ocre}{RGB}{0,51,0}
+\definecolor{sad}{RGB}{0,51,0}
 \usepackage[textfont={small}]{caption}
-\usepackage[labelfont={color=ocre}]{caption}
+\usepackage[labelfont={color=sad}]{caption}
 \setbeamertemplate{caption}[numbered]
 
 % =============== Set the warning ============== %
@@ -114,51 +114,8 @@
     \end{minipage}
 
 \end{frame}
-
-
-% \begin{frame}{Backgrounds}
-
-
-
-
-% \begin{itemize}
-%     \item To give an illustrative example on why post-serving contexts is a practical issue.
-%     \item To briefly mention that solely dependent on $\vx$ can bring linear regret.
-%     \item To highlight the research question.
-% \end{itemize}
-
-% \end{frame}
-
-\begin{frame}{Contributions}
-\begin{itemize}
-    \item \textbf{New framework with practical significance}: 
-    \begin{itemize}
-        \item Introduced a new family of contextual bandits with post-serving contexts.
-    \end{itemize}
-    \item \textbf{Enhanced lemma}: 
-    \begin{itemize}
-        \item Developed a generalized version of the Elliptical Potential Lemma (EPL).
-    \end{itemize}
-    \item \textbf{Algorithm with theoretical guarantee}: 
-    \begin{itemize}
-        \item Designed a new algorithm, \texttt{poLinUCB}, enjoying a regret bound of \( \widetilde{\mathcal{O}}(T^{1-\alpha}d_u^{\alpha} + d_u\sqrt{T K })\) when learning with post-serving contexts.
-    \end{itemize}
-    \item \textbf{Empirical validation}: 
-    \begin{itemize}
-        \item Achieved SOTA performance on synthetic and real-world datasets.
-    \end{itemize}
-\end{itemize}
-
-
-\end{frame}
 % =======================================
 
-
-
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Preliminaries}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % =======================================
 \begin{frame}[label=Background]{Problem Setup and Notations}
 
@@ -167,7 +124,7 @@
     \begin{itemize}
         \item The learner observes the context $\vx_t$.
         \item The learner selects an arm $a_t \in [K] $.
-        \item The learner observes the reward $r_{t,a_t}$ \textbf{and the post-serving context $\vz_t$}.
+        \item The learner observes the reward $r_{t,a_t}$ \underline{\textcolor{sad}{\textbf{and the post-serving context $\vz_t$}}}.
     \end{itemize}
 \end{itemize}
 
@@ -203,6 +160,41 @@
 \end{frame}
 % =======================================
 
+
+% =======================================
+\begin{frame}{Contributions}
+\begin{itemize}
+    \item \textbf{New framework}: 
+    \begin{itemize}
+        \item Proposed a novel family of contextual bandits with post-serving contexts.
+    \end{itemize}
+    \item \textbf{Enhanced lemma}: 
+    \begin{itemize}
+        \item Introduced the Generalized Elliptical Potential Lemma (EPL).
+    \end{itemize}
+    \item \textbf{Algorithm and theory}: 
+    \begin{itemize}
+        \item Designed \textbf{\polinucb} with a regret bound of \( \widetilde{\mathcal{O}}(T^{1-\alpha}d_u^{\alpha} + d_u\sqrt{T K })\).
+    \end{itemize}
+    \item \textbf{Empirical validation}: 
+    \begin{itemize}
+        \item Achieved SOTA performance on synthetic and real-world datasets.
+    \end{itemize}
+\end{itemize}
+% =======================================
+
+
+\end{frame}
+% =======================================
+
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preliminaries}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 % =======================================
 
 
@@ -220,16 +212,17 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
 \end{frame}
 % =======================================
 
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Method}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % =======================================
 \begin{frame}[label=warmup]{Warmup: Why Natural Attempts May be Inadequate?}
 
 \end{frame}
 % =======================================
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Method}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 % =======================================
 \begin{frame}{Generalized Elliptical Potential Lemma}
