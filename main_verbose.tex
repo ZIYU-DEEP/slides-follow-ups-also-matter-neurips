@@ -1,5 +1,6 @@
 \documentclass[10pt, xcolor=x11names,compress]{beamer}
 \usepackage{tabulary}
+
 \usepackage{etoolbox}
 \usepackage{booktabs}
 \usepackage{amssymb}
@@ -11,6 +12,8 @@
 \usepackage{mwe}% for example pictures
 \usepackage{siunitx}
 \usepackage{hyperref}
+\usepackage{biblatex}
+\addbibresource{main.bib}
 \usecolortheme{spruce}
 \useoutertheme{infolines}
 \usefonttheme[onlymath]{serif}
@@ -203,7 +206,20 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % =======================================
 \begin{frame}{Regret Analysis}
-
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Settings}  & \textbf{Ours} \\ \midrule
+Ours               & $\widetilde{\mathcal{O}}\left(T^{1-\alpha}d_u^{\alpha} + d_u\sqrt{T K }\right)$           \\
+Action-dependent contexts   & $\widetilde{\mathcal{O}}\left(T^{1-\alpha}d_u^{\alpha}\sqrt{K} + d_u\sqrt{T K }\right)$            \\
+Same setting as in [Abbasi et al., 2011]~\footfullcite{abbasi2011improved} & $\widetilde{\mathcal{O}}\left(T^{1-\alpha}d_u^{\alpha} + d_u\sqrt{T  }\right)$            \\ \bottomrule
+\end{tabular}
+\caption{Upper bound of regret of \polinucb.}
+\label{tab:regret}
+\end{table}
 \end{frame}
 % =======================================
 
@@ -211,13 +227,13 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
 \begin{frame}{Experimental Results}
 
 \begin{itemize}
-    \item  Our proposed \texttt{poLinUCB} consistently outperforms other strategies\\\textcolor{gray}{{\footnotesize (except for \texttt{LinUCB} which has access to the post-serving context during arm selection)}}.
+    \item  Our proposed \polinucb consistently outperforms other strategies\\\textcolor{gray}{{\footnotesize (except for \texttt{LinUCB} which has access to the post-serving context during arm selection)}}.
 \end{itemize}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.85\textwidth]{figs/synthetic-comparisons.pdf}
-    \vspace{-0.2cm}
+    \vspace{0.2cm}
     \caption{{\small Cumulative Regret in three synthetic environments. The shaded area denotes the standard error computed using 10 different random seeds.}}
     \label{fig:synthetic-experiments}
 \end{figure}
