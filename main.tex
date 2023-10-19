@@ -1,6 +1,11 @@
 \documentclass[10pt, xcolor=x11names,compress]{beamer}
 \usepackage{tabulary}
+\usepackage{etoolbox}
 \usepackage{booktabs}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{bm}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{mwe}% for example pictures
@@ -13,6 +18,12 @@
 \setbeamertemplate{navigation symbols}{}
 \mode<beamer>{\setbeamertemplate{blocks}[rounded][shadow=true]}
 \setbeamercovered{transparent}
+\input{macros}
+
+%%%%%%%% Set the warning %%%%%%%%
+\usepackage{silence}
+\WarningFilter[pdftoc]{hyperref}{Token not allowed in a PDF string}
+\WarningsOff
 
 %%%%%%%% Set the color %%%%%%%%
 \setbeamercolor{block body}{use=structure, fg=white, bg=black!20}
@@ -26,12 +37,12 @@
 \leavevmode%  
 \hbox{%  
 
-\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.5ex,center]{author in head/foot}%    
+\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,center]{author in head/foot}%    
 \usebeamerfont{author in head/foot}
 \insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}
 \end{beamercolorbox}%  
 
-\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.5ex,right]{date in head/foot}%    
+\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}%    
 \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}    
 \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}   
 \end{beamercolorbox}}%  
@@ -42,8 +53,8 @@
 \makeatother 
 \useoutertheme[footline=empty, subsection=false]{miniframes}
 \usepackage{multicol}  
-\author[C. Wang, Z. Ye, Z. Feng, A. Badanidiyuru, H. Xu]{Chaoqi Wang\inst{1}, Ziyu Ye\inst{1}, Zhe Feng\inst{2}\\Ashwinkumar Badanidiyuru\inst{2}, Haifeng Xu\inst{1}}
-\institute[The University of Chicago]{The University of Chicago\inst{1}\\Google Research\inst{2}}
+\author[C. Wang, Z. Ye, Z. Feng, A. Badanidiyuru, H. Xu]{Chaoqi Wang\inst{1}, Ziyu Ye\inst{1}, Zhe Feng\inst{2}\\Ashwinkumar Badanidiyuru\inst{3}, Haifeng Xu\inst{1}}
+\institute[The University of Chicago]{The University of Chicago\inst{1}\vspace{+2pt}\\Google Research\inst{2}\vspace{+2pt}\\Google\inst{3}}
 \title{Follow-ups Also Matter:\\Improving Contextual Bandits via Post-serving Contexts}
 \date{NeurIPS 2023} 
 
@@ -56,66 +67,110 @@
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Introduction}
-\begin{frame}[label=Background]{Problem Setup}
+% =======================================
+\begin{frame}{Backgrounds}
+
 \begin{itemize}
-\item Here to input your background\\
-   \begin{itemize}
-    \item This is the sub-content
-    \item Here you can also jump to other slides \hyperlink{Rocky}{\beamergotobutton{go}}
-   \end{itemize}
-\item Now we go back to the main content\\
-
+    \item To give an illustrative example.
+    \item To highlight the research question.
 \end{itemize}
-\end{frame}
-
-\begin{frame}{Our Contributions}
 
 \end{frame}
+
+\begin{frame}{Contributions}
+\begin{itemize}
+    \item \textbf{New Problem Setting}: 
+    \begin{itemize}
+        \item Introduced a new family of contextual bandits with post-serving contexts.
+    \end{itemize}
+    \item \textbf{Enhanced Lemma}: 
+    \begin{itemize}
+        \item Developed a generalized version of the Elliptical Potential Lemma (EPL).
+    \end{itemize}
+    \item \textbf{Theoretical Guarantee}: 
+    \begin{itemize}
+        \item Designed a new algorithm, \texttt{poLinUCB}, enjoying a regret bound of \( \widetilde{\mathcal{O}}(T^{1-\alpha}d_u^{\alpha} + d_u\sqrt{T K })\).
+    \end{itemize}
+    \item \textbf{Empirical Validation}: 
+    \begin{itemize}
+        \item Achieved SOTA performance on synthetic and real-world datasets.
+    \end{itemize}
+\end{itemize}
+
+
+% \begin{itemize}
+%     \item Introduced a new family of contextual linear bandits with post-serving contexts.
+%     \item Developed a robustified and generalized version of the Elliptical Potential Lemma (EPL) to accommodate random noise in the post-serving contexts.
+%     \item Designed a new algorithm, \texttt{poLinUCB}, with a regret bound of $ \widetilde{\mathcal{O}}(T^{1-\alpha}d_u^{\alpha} + d_u\sqrt{T K })$, adaptable to the complexity of pre- and post-serving context mapping.
+%     \item Validated the algorithm's SOTA performance via synthetic and real-world experiments.
+% \end{itemize}
+
+\end{frame}
+% =======================================
+
+
 
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Preliminaries}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % =======================================
-\begin{frame}{Definitions and Notations}
+\begin{frame}[label=Background]{Problem Setup and Notations}
+
+\begin{itemize}
+    \item \textbf{Problem Setup}: Each time $t = 1, 2, \cdots, T$:
+    \begin{itemize}
+        \item The learner observes the context $\vx_t$.
+        \item The learner selects an arm $a_t \in [K] $.
+        \item The learner observes the reward $r_{t,a_t}$ \textbf{and the post-serving context $\vz_t$}.
+    \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Notations}:
+    \begin{itemize}
+        \item Actions space: $\calA = [K]$.
+        
+        \item Pre-serving context: $\vx \in \sR^{d_{\vx}}$; post-serving context: $\vz \in \sR^{d_{\vz}}$.
+        \begin{itemize}
+            \item $\vz = \phi^{\star}\left(\vx_t\right)+\vepsilon_t, \text{and } \phi^{\star}(\vx)=\sE[\vz \mid \vx]$
+        \end{itemize}
+        
+        \item Reward function: 
+        \begin{itemize}
+            \item $r_{a}(\vx, \vz) = \vx^\top \vtheta_a^\star + \vz^\top \vbeta_a^\star + \eta$, where $\eta$ is $R_{\eta}$-sub-Gaussian.
+        \end{itemize}
+        
+        \item Matrix representation: 
+        \begin{itemize}
+            \item $\mX_{t} = \sum_{s=1}^t \vx_s\vx_s^\top + \lambda \mI$ and $\mZ_t = \sum_{s=1}^t \vz_s \vz_s^\top + \lambda \mI$.
+        \end{itemize}
+        
+        \item Norm restrictions: 
+        \begin{itemize}
+            \item $\forall a \in \calA, \|\vtheta_a^\star\|_2\leq 1, \|\vbeta_{a}^\star\|_2\leq 1 $; $\|\vx\|_2\leq L_x, \|\vz\|_2 \leq L_z$.
+        \end{itemize}
+        
+    \end{itemize}
+\end{itemize}
 
 \end{frame}
 % =======================================
 
 % =======================================
 \begin{frame}{Assumptions}
-\begin{itemize}
-    \item Studies investigating the impact of Rocky's little brother's birth on his instances of running away. 
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.3\textwidth]{Figure1.jpg}
-        \caption{His name is Rocky}
-        \label{fig:enter-label}
-    \end{figure}
-\end{itemize}
+
 \end{frame}
 % =======================================
+
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Method}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % =======================================
-\begin{frame}[label=Rocky]{Warmup: Why Natural Attempts May be Inadequate?}
-\begin{figure}
- \begin{columns}[c]
-  \begin{column}{0.3\textwidth}
-    \centering
-    \includegraphics[width=1\textwidth]{Figure2.jpg}
-  \end{column}
-  \begin{column}{0.3\textwidth}
-    \centering
-    \includegraphics[width=1\textwidth]{Figure3.jpg}
-  \end{column}
-  \end{columns}
-  \caption{Here I just using one caption for these 2 cute pictures but you can also using 2 captions  \parbox{\linewidth}{\small\textit{Data source: Rocky's daily look}}}
-\end{figure}
-Now I am going back to the previous slidesby clicking this: \hyperlink{Background}{go back}.
+\begin{frame}[label=warmup]{Warmup: Why Natural Attempts May be Inadequate?}
+
 \end{frame}
 % =======================================
 
