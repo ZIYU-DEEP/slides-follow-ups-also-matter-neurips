@@ -1,6 +1,8 @@
 \documentclass[10pt, xcolor=x11names,compress]{beamer}
 \usepackage{tabulary}
-
+% \usepackage{algorithm}
+% \usepackage{algpseudocode}
+\usepackage{algorithm2e}
 \usepackage{etoolbox}
 \usepackage{booktabs}
 \usepackage{amssymb}
@@ -75,6 +77,7 @@
 
 \begin{itemize}
     \item To give an illustrative example on why post-serving contexts is a practical issue.
+    \item To briefly mention that solely dependent on $\vx$ can bring linear regret.
     \item To highlight the research question.
 \end{itemize}
 
@@ -82,31 +85,24 @@
 
 \begin{frame}{Contributions}
 \begin{itemize}
-    \item \textbf{New Problem Setting}: 
+    \item \textbf{New framework with practical significance}: 
     \begin{itemize}
         \item Introduced a new family of contextual bandits with post-serving contexts.
     \end{itemize}
-    \item \textbf{Enhanced Lemma}: 
+    \item \textbf{Enhanced lemma}: 
     \begin{itemize}
         \item Developed a generalized version of the Elliptical Potential Lemma (EPL).
     \end{itemize}
-    \item \textbf{Theoretical Guarantee}: 
+    \item \textbf{Algorithm with theoretical guarantee}: 
     \begin{itemize}
-        \item Designed a new algorithm, \texttt{poLinUCB}, enjoying a regret bound of \( \widetilde{\mathcal{O}}(T^{1-\alpha}d_u^{\alpha} + d_u\sqrt{T K })\).
+        \item Designed a new algorithm, \texttt{poLinUCB}, enjoying a regret bound of \( \widetilde{\mathcal{O}}(T^{1-\alpha}d_u^{\alpha} + d_u\sqrt{T K })\) when learning with post-serving contexts.
     \end{itemize}
-    \item \textbf{Empirical Validation}: 
+    \item \textbf{Empirical validation}: 
     \begin{itemize}
         \item Achieved SOTA performance on synthetic and real-world datasets.
     \end{itemize}
 \end{itemize}
 
-
-% \begin{itemize}
-%     \item Introduced a new family of contextual linear bandits with post-serving contexts.
-%     \item Developed a robustified and generalized version of the Elliptical Potential Lemma (EPL) to accommodate random noise in the post-serving contexts.
-%     \item Designed a new algorithm, \texttt{poLinUCB}, with a regret bound of $ \widetilde{\mathcal{O}}(T^{1-\alpha}d_u^{\alpha} + d_u\sqrt{T K })$, adaptable to the complexity of pre- and post-serving context mapping.
-%     \item Validated the algorithm's SOTA performance via synthetic and real-world experiments.
-% \end{itemize}
 
 \end{frame}
 % =======================================
@@ -191,11 +187,15 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
 % =======================================
 \begin{frame}{Generalized Elliptical Potential Lemma}
 
+
+
 \end{frame}
 % =======================================
 
 % =======================================
-\begin{frame}{The Proposed Algorithm: \texttt{poLinUCB}}
+\begin{frame}{The Proposed Algorithm: \polinucb}
+
+
 
 \end{frame}
 % =======================================
