@@ -210,6 +210,18 @@ where $\alpha \in (0, 1/2]$ and $C_0$ is some universal constant.
 % =======================================
 \begin{frame}{Experimental Results}
 
+\begin{itemize}
+    \item  Our proposed \texttt{poLinUCB} consistently outperforms other strategies\\\textcolor{gray}{{\footnotesize (except for \texttt{LinUCB} which has access to the post-serving context during arm selection)}}.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figs/synthetic-comparisons.pdf}
+    \vspace{-0.2cm}
+    \caption{{\small Cumulative Regret in three synthetic environments. The shaded area denotes the standard error computed using 10 different random seeds.}}
+    \label{fig:synthetic-experiments}
+\end{figure}
+
 \end{frame}
 % =======================================
 
