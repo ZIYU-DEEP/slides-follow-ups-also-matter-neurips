@@ -49,6 +49,7 @@
 \definecolor{ultramarine}{RGB}{24,13,191}
 \definecolor{navyblue}{rgb}{0.0, 0.0, 0.5}
 \definecolor{dgreen}{RGB}{0,51,0}
+\definecolor{fff}{RGB}{255,255,255}
 
 \setbeamercolor{block body}{use=structure, fg=white, bg=black!20}
 \setbeamercolor{itemize item}{fg=black}
@@ -62,7 +63,7 @@
 %             colorlinks=true,}
 
 % ========= Set up highlighters ========= %
-\newcommand{\emphgreen}[1]{\colorbox{Green3!30!white}{$\displaystyle#1$}}
+\newcommand{\emphgreen}[1]{\colorbox{Green3!16!white}{$\displaystyle#1$}}
 \newcommand{\emphgold}[1]{\colorbox{Goldenrod!50}{$\displaystyle#1$}}
 \newcommand{\emphmelon}[1]{\colorbox{Melon!50}{$\displaystyle#1$}}
 \newcommand{\emphapricot}[1]{\colorbox{Apricot!50}{$\displaystyle#1$}}
@@ -71,6 +72,7 @@
 \newcommand{\emphgray}[1]{\colorbox{gray!10}{$\displaystyle#1$}}
 \newcommand{\emphpurple}[1]{\colorbox{purple!10}{$\displaystyle#1$}}
 \newcommand{\emphred}[1]{\colorbox{Red!30}{$\displaystyle#1$}}
+\newcommand{\emphfff}[1]{\colorbox{fff}{$\displaystyle#1$}}
 
 
 % =========Set the high-level colorbox ========= %
@@ -145,7 +147,8 @@
     \begin{itemize}
         \item The learner observes the context $\vx_t$.
         \item The learner selects an arm $a_t \in [K] $.
-        \item The learner observes the reward $r_{t,a_t}$ \underline{\textcolor{sad}{\textbf{and the post-serving context $\vz_t$}}}.
+        \item The learner observes the reward $r_{t,a_t}$.
+        \item \textcolor{dgreen}{\textbf{The learner observes the post-serving context $\vz_t$}}.
     \end{itemize}
 \end{itemize}
 
@@ -217,14 +220,11 @@
 
 
 % =======================================
-
-
-\begin{frame}{Assumption: Generalized learnability of $\phi^*(\cdot)$}
+\begin{frame}{Assumption: Generalized Learnability of $\phi^*(\cdot)$}
 
 % TODO: make this more abstract and easily digested by the audience.\\
 \begin{alertblock}{Learnability Assumption}
 There exists an algorithm that, given $t$ pairs of examples $\{(\vx_s, \vz_s)\}_{s=1}^t$ with  arbitrarily chosen $\vx_s$'s,   outputs an estimated function of $\phi^\star: \mathbb{R}^{d_x} \rightarrow \mathbb{R}^{d_z}$ such that for any $\vx\in \mathbb{R}^{d_x}$,  the following holds with probability at least $1-\delta$, 
-
 \begin{align}
      e_t^\delta:=\left\|\widehat{\phi}_t(\boldsymbol{x})-\phi^{\star}(\boldsymbol{x})\right\|_2 \leq C_0 \cdot\left(\|\boldsymbol{x}\|_{\boldsymbol{X}_t^{-1}}^2\right)^{\textcolor{red}{\alpha}} \cdot \log (t / \delta), \nonumber
 \end{align}
@@ -246,7 +246,7 @@ where \textcolor{red}{$\alpha \in (0, 1/2]$} and $C_0$ is some universal constan
 \begin{frame}[label=warmup]{Why Natural Attempts May be Inadequate?}
 % TODO: WORKING ON THIS.\vspace{+10pt}
 \begin{itemize}
-    \item As in [Wang et al., 2016]~\footfullcite{wang2016learning}, a natural idea is to fit $\widehat{\phi}(\cdot)$, and obtain the parameter estimate by solving:
+    \item Similar to [Wang et al., 2016]~\footfullcite{wang2016learning}, a natural idea is to fit $\widehat{\phi}(\cdot)$, and obtain the parameter estimate by solving:
     {\small
     \begin{align}
     \ell_t (\vtheta_a, \vbeta_a) = \sum_{s\in [t]: a_s = a}  \left(r_{s, a} - \vx_t^\top \vtheta_{a} - \textcolor{red}{\widehat{\phi}_{s}(\vx_s)}^\top \vbeta_{a}\right)^2+\lambda \left( \|\vtheta_a\|_2^2 +  \|\vbeta_a\|_2^2 \right). \nonumber
@@ -256,14 +256,14 @@ where \textcolor{red}{$\alpha \in (0, 1/2]$} and $C_0$ is some universal constan
         \item The regret can be $\widetilde{\mathcal{O}}({T^{3/4}})$ when initialized away from the global optimum.
     \end{itemize}
     \vspace{+6pt}
-    \item We propose to get parameter estimate by solving:
+    \item We propose to get the parameter estimate by solving:
     {\small
     \begin{align}\label{eqn:w-closed-form}
     \ell_t (\vtheta_a, \vbeta_a) &= \sum_{s\in[t]: a_s = a}  \left(r_{s, a} - \vx_s^\top \vtheta_{a} - {\color{red}{\vz_s}}^{\top} \vbeta_{a}\right)^2+\lambda \left(\|\vtheta_a\|_2^2 + \|\vbeta_{a}\|_{2}^{2}\right). \nonumber
     \end{align}
     }  
     \begin{itemize}
-        \item This requires improvement over the original Elliptical Potential Lemma (EPL) to accommodate noise in contexts during learning.
+        \item This requires modification over the original Elliptical Potential Lemma (EPL) to accommodate noise in contexts during learning.
     \end{itemize}
 \end{itemize}
 
@@ -308,17 +308,14 @@ For any $p \in [0, 1]$, the following inequality holds with probability at least
 \begin{algorithm}[H]
 \caption{\polinucb~(Linear UCB with post-serving contexts)}\label{alg:polinucb}
 \begin{algorithmic}[1]
-    % \textbf{Input:} Text Document.\newline
-    % \textbf{Output:} Summary sentences.
-    % \State{Initialize parameters $\left\{\boldsymbol{A}_{i, 0} \leftarrow \mathbf{I}^d, \boldsymbol{b}_{i, 0} \leftarrow \mathbf{0}^d\right\}$ for all $i \in[K]$ and $\alpha \in \mathbb{R}^{+}$.}
     \For{$t=0, 1, \ldots, T$}
         \State Receive the pre-serving context $\vx _{t}$.
         \State Compute the optimistic parameters by maximizing the UCB objective:
         $${\left(a_t, {\widetilde{\phi}_{t}(\vx_t)}, \widetilde{\vw}_t\right) = {\underset{(a, \phi, \vw_a) \in [K] \times \calC_{t-1}\left(\widehat{\phi}_{t-1}, \vx_t\right) \times \calC_{t-1}(\widehat{\vw}_{t-1,a})  }{\argmax}} { \begin{bmatrix} \vx_t \\ \phi(\vx_t) \end{bmatrix}^\top \vw_{a} }}.$$ 
         \State Play the arm $a_t$ and receive the post-serving context  $\vz_t$ and  the reward $r_{t, a_t}$.
         \State Compute $\widehat{\vw}_{t,a}$ for each $a \in \calA$ using:
-        $$\emphgray{
-        \ell_t\left(\boldsymbol{\theta}_a, \beta_a\right)=\sum_{s \in[t]: a_s=a}\left(r_{s, a}-\boldsymbol{x}_s^{\top} \boldsymbol{\theta}_a-\emphgreen{\vz_s}^{\top} \beta_a\right)^2+\lambda\left(\left\|\boldsymbol{\theta}_a\right\|_2^2+\left\|\beta_a\right\|_2^2\right)}.
+        $$\emphgreen{
+        \ell_t\left(\boldsymbol{\theta}_a, \beta_a\right)=\sum_{s \in[t]: a_s=a}\left(r_{s, a}-\boldsymbol{x}_s^{\top} \boldsymbol{\theta}_a-\textcolor{red}{\vz_s}^{\top} \beta_a\right)^2+\lambda\left(\left\|\boldsymbol{\theta}_a\right\|_2^2+\left\|\beta_a\right\|_2^2\right)}.
         $$
         \State Compute the estimated post-serving context generating function $\widehat{\phi}_t(\cdot)$ using ERM. 
         \State Update confidence sets $\calC_t(\widehat{\vw}_{t, a})$ and $\calC_t(\widehat{\phi}_t, \vx_t)$ for each $a$.
@@ -355,18 +352,36 @@ Same setting as in [Abbasi et al., 2011]~\footfullcite{abbasi2011improved} & $\w
 % =======================================
 
 % =======================================
-\begin{frame}{Experimental Results}
+\begin{frame}{Experimental Results: The Synthetic Dataset}
 
 \begin{itemize}
-    \item  Our proposed~\polinucb~consistently outperforms other strategies\\\textcolor{gray}{{\footnotesize (except for \texttt{LinUCB} ($x$ and $z$) which equips with post-serving contexts in arm selection)}}.
+    \item  Our proposed~\polinucb~consistently outperforms other strategies.\\\textcolor{gray}{{\footnotesize (Except for \texttt{LinUCB} ($x$ and $z$) which equips with post-serving contexts in arm selection.)}}
 \end{itemize}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.85\textwidth]{figs/synthetic-comparisons.pdf}
     \vspace{0.2cm}
-    \caption{{\small Cumulative Regret in three synthetic environments. The shaded area denotes the standard error computed using 10 different random seeds.}}
+    \caption{{\small Algorithms' cumulative regrets in three synthetic environments. The shaded area denotes the standard error computed using 10 different random seeds.}}
     \label{fig:synthetic-experiments}
+\end{figure}
+
+\end{frame}
+% =======================================
+
+% =======================================
+\begin{frame}{Experimental Results: The MovieLens Dataset~\footfullcite{movielens}}
+
+\begin{itemize}
+    \item  Our proposed~\polinucb~consistently outperforms other strategies.\\\textcolor{gray}{{\footnotesize (Except for \texttt{LinUCB} ($x$ and $z$) which equips with post-serving contexts in arm selection.)}}
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figs/movielens.pdf}
+    \vspace{0.2cm}
+    \caption{{\small Algorithms' cumulative regrets in the MoiveLens Dataset. The shaded area denotes the standard error computed using 10 different random seeds.}}
+    \label{fig:movielens-experiments}
 \end{figure}
 
 \end{frame}
