@@ -130,7 +130,7 @@
         \begin{itemize}
             \item \textbf{Motivation}: Post-serving contexts are prevalent in recommender systems.
             \item \textbf{Challenges}: Classical bandit algorithms often fall short in such scenarios.
-            \item \textbf{Research question}: How to effectively utilizing post-serving information in contextual bandits?
+            \item \textbf{Research question}: How to effectively utilize \textbf{post-serving information} in \textbf{linear contextual bandits}?
         \end{itemize}
     \end{minipage}
 
@@ -244,7 +244,25 @@ where \textcolor{red}{$\alpha \in (0, 1/2]$} and $C_0$ is some universal constan
 
 % =======================================
 \begin{frame}[label=warmup]{Warmup: Why Natural Attempts May be Inadequate?}
-
+% TODO: WORKING ON THIS.\vspace{+10pt}
+\begin{itemize}
+    \item As in [Wang et al., 2016]~\footfullcite{wang2016learning}, a natural idea is to fit $\widehat{\phi}(\cdot)$, and obtain the parameter estimate by solving:
+    {\small
+    \begin{align}
+    \ell_t (\vtheta_a, \vbeta_a) = \sum_{s\in [t]: a_s = a}  \left(r_{s, a} - \vx_t^\top \vtheta_{a} - \textcolor{red}{\widehat{\phi}_{s}(\vx_s)}^\top \vbeta_{a}\right)^2+\lambda \left( \|\vtheta_a\|_2^2 +  \|\vbeta_a\|_2^2 \right). \nonumber
+    \end{align}
+    }
+    \begin{itemize}
+        \item The regret can be $\widetilde{\mathcal{O}}({T^{3/4}})$ when initialized away from the global optimum.
+    \end{itemize}
+    \vspace{+6pt}
+    \item We propose to get parameter estimate by solving:
+    {\small
+    \begin{align}\label{eqn:w-closed-form}
+    \ell_t (\vtheta_a, \vbeta_a) &= \sum_{s\in[t]: a_s = a}  \left(r_{s, a} - \vx_s^\top \vtheta_{a} - {\color{red}{\vz_s}}^{\top} \vbeta_{a}\right)^2+\lambda \left(\|\vtheta_a\|_2^2 + \|\vbeta_{a}\|_{2}^{2}\right). \nonumber
+    \end{align}
+    }  
+\end{itemize}
 
 
 \end{frame}
@@ -279,18 +297,17 @@ For any $p \in [0, 1]$, the following inequality holds with probability at least
 
 % =======================================
 \begin{frame}{The Proposed Algorithm: \polinucb}
-\hspace{+10pt}
+\vspace{-6pt}
 \begin{center}
 
-\scalebox{0.8}{\begin{minipage}[c][0.3\paperheight][c]{1.2\textwidth}
+\scalebox{0.85}{\begin{minipage}[c][0.4\paperheight][c]{1.2\textwidth}
   \centering
-
 \begin{algorithm}[H]
 \caption{\polinucb~(Linear UCB with post-serving contexts)}\label{alg:polinucb}
 \begin{algorithmic}[1]
     % \textbf{Input:} Text Document.\newline
     % \textbf{Output:} Summary sentences.
-    \State{Initialize parameters $\left\{\boldsymbol{A}_{i, 0} \leftarrow \mathbf{I}^d, \boldsymbol{b}_{i, 0} \leftarrow \mathbf{0}^d\right\}$ for all $i \in[K]$ and $\alpha \in \mathbb{R}^{+}$.}
+    % \State{Initialize parameters $\left\{\boldsymbol{A}_{i, 0} \leftarrow \mathbf{I}^d, \boldsymbol{b}_{i, 0} \leftarrow \mathbf{0}^d\right\}$ for all $i \in[K]$ and $\alpha \in \mathbb{R}^{+}$.}
     \For{$t=0, 1, \ldots, T$}
         \State Receive the pre-serving context $\vx _{t}$.
         \State Compute the optimistic parameters by maximizing the UCB objective:
