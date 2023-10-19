@@ -257,20 +257,22 @@ where \textcolor{red}{$\alpha \in (0, 1/2]$} and $C_0$ is some universal constan
 
 
 % =======================================
-\begin{frame}{The Proposed Lemma: \texttt{Generalized EPL}}
-\begin{alertblock}{Generalized Elliptical Potential Lemma}
-Suppose (1) $\mX_0 \in \mathbb{R}^{d \times d}$ is any positive definite matrix; (2) $\vx_1, \ldots, \vx_T \in \mathbb{R}^d$ is a sequence of vectors with bounded $l_2$ norm $\max_t \|\vx_t\| \leq L_x$; (3) $\vepsilon_1, \ldots, \vepsilon_T \in \mathbb{R}^d$ is a sequence of independent (not necessarily identical) bounded zero-mean   noises satisfying  $\max_{t} \|\vepsilon_t\| \leq L_{\epsilon}$ and $   \expect[\vepsilon_t \vepsilon_t^\top] \succcurlyeq \sigma^2_{\epsilon} \mI$ for any $t$; %(4)  $\varphi: \mathbb{R}^D \to \mathbb{R}^d$ is a convex context mapping function; 
-and (4) $\widetilde{\mX}_t$ is defined as follows:
+\begin{frame}{The Proposed Lemma: Generalized EPL}
+\begin{alertblock}{Generalized Elliptical Potential Lemma\footnotemark}
+Suppose (1) $\mX_0 \in \mathbb{R}^{d \times d}$ is any positive definite matrix; (2) $\vx_1, \ldots, \vx_T \in \mathbb{R}^d$ and $\max_t \|\vx_t\| \leq L_x$; (3) $\vepsilon_1, \ldots, \vepsilon_T \in \mathbb{R}^d$ are independent bounded zero-mean noises satisfying  $\max_{t} \|\vepsilon_t\| \leq L_{\epsilon}$ and $   \expect[\vepsilon_t \vepsilon_t^\top] \succcurlyeq \sigma^2_{\epsilon} \mI$; %(4)  $\varphi: \mathbb{R}^D \to \mathbb{R}^d$ is a convex context mapping function; 
+and (4) $\widetilde{\mX}_t$ is defined as:
+{\small
 \begin{equation*}\label{eq:data-matrix-GEPL}
-    \widetilde{\mX}_t=\mX_0+\sum_{s=1}^t  (\vx_s + \vepsilon_s)  (\vx_s + \vepsilon_s)^{\top} \in \mathbb{R}^{d \times d}. 
-\end{equation*} 
-Then, for any $p \in [0, 1]$, the following inequality holds with probability at least $1-\delta$,
-{\scriptsize
+    \textcolor{red}{\widetilde{\mX}_t}=\mX_0+\sum_{s=1}^t  (\vx_s \textcolor{red}{\ + \ \vepsilon_s})  (\vx_s \textcolor{red}{\ + \ \vepsilon_s})^{\top} \in \mathbb{R}^{d \times d}. 
+\end{equation*} }
+For any $p \in [0, 1]$, the following inequality holds with probability at least $1-\delta$,
+{\small
 \begin{align}\label{eq:gepl-bound}
-    \!\!\!\!\!\!\!\!\sum_{t=1}^T\left(1 \wedge\left\| \vx_t \right\|_{\widetilde{\mX}_{t-1}^{-1}}^2\right)^p &\leq  2^p T^{1-p}\log^p\left(\frac{\det \mX_T}{\det\mX_0}\right) +  \frac{  8 L_\epsilon^2 (L_\epsilon + L_x)^2 }{\sigma_{\epsilon}^4} \log\left(\frac{32d L_\epsilon^2 (L_\epsilon + L_x)^2 }{\delta \sigma_{\epsilon}^4}\right).  \nonumber
+    \sum_{t=1}^T\left(1 \wedge\left\| \vx_t \right\|_{\textcolor{red}{\widetilde{\mX}_{t-1}^{-1}}}^2\right)^p &\leq \emphgreen{ 2^p T^{1-p}\log^p\left(\frac{\det \mX_T}{\det\mX_0}\right)} \nonumber \\ &\textcolor{gray}{+  \frac{  8 L_\epsilon^2 (L_\epsilon + L_x)^2 }{\sigma_{\epsilon}^4} \log\left(\frac{32d L_\epsilon^2 (L_\epsilon + L_x)^2 }{\delta \sigma_{\epsilon}^4}\right)}.  \nonumber
 \end{align}}
+\vspace{+0.1pt}
 \end{alertblock}
-
+\footnotetext{The original EPL corresponds to the specific case of $p=1$.}
 
 \end{frame}
 % =======================================
